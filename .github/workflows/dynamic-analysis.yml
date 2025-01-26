@@ -34,7 +34,7 @@ jobs:
 
     # Step 5: Run OWASP ZAP
     - name: Run OWASP ZAP
-      uses: zaproxy/action-full-scan@v1.0.0
+      uses: zaproxy/action-full-scan@latest
       with:
         target: 'http://127.0.0.1:5000'
 
