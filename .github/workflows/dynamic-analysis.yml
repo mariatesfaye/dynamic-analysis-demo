@@ -1,0 +1,46 @@
+name: Dynamic Analysis with OWASP ZAP
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  dynamic-analysis:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Step 1: Checkout the repository
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    # Step 2: Set up Python
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+
+    # Step 3: Install dependencies
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    # Step 4: Start the application
+    - name: Start the Flask application
+      run: |
+        nohup python app.py &
+
+    # Step 5: Run OWASP ZAP
+    - name: Run OWASP ZAP
+      uses: zapbot/zap-action@v0.4.0
+      with:
+        cmd: zap-full-scan.py -t http://127.0.0.1:5000 -r zap_report.html
+
+    # Step 6: Upload the report as an artifact
+    - name: Upload OWASP ZAP report
+      uses: actions/upload-artifact@v3
+      with:
+        name: zap-report
+        path: zap_report.html
