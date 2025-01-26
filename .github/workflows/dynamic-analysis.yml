@@ -34,11 +34,9 @@ jobs:
 
     # Step 5: Run OWASP ZAP
     - name: Run OWASP ZAP
-      uses: owasp/zap-action@v2.0.0
+      uses: zaproxy/action-full-scan@v1.0.0
       with:
         target: 'http://127.0.0.1:5000'
-        rules: 'attack'
-        action: 'full-scan'
 
     # Step 6: Upload the report as an artifact
     - name: Upload OWASP ZAP report
