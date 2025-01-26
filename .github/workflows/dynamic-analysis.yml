@@ -27,16 +27,18 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    # Step 4: Start the application
+    # Step 4: Start the Flask application
     - name: Start the Flask application
       run: |
         nohup python app.py &
 
     # Step 5: Run OWASP ZAP
     - name: Run OWASP ZAP
-      uses: zapbot/zap-action@v0.4.0
+      uses: owasp/zap-action@v2.0.0
       with:
-        cmd: zap-full-scan.py -t http://127.0.0.1:5000 -r zap_report.html
+        target: 'http://127.0.0.1:5000'
+        rules: 'attack'
+        action: 'full-scan'
 
     # Step 6: Upload the report as an artifact
     - name: Upload OWASP ZAP report
