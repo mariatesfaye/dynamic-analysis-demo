@@ -38,6 +38,14 @@ jobs:
       with:
         target: 'http://127.0.0.1:5000'
 
+    # Step 5.1: List files in working directory
+    - name: List files in the current directory
+      run: ls -al
+
+    # Step 5.2: Find the zap_report.html file
+    - name: Find zap_report.html
+      run: find . -name "zap_report.html"
+      
     # Step 6: Upload the report as an artifact
     - name: Upload OWASP ZAP report
       uses: actions/upload-artifact@v3
